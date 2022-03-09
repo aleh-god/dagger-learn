@@ -10,7 +10,7 @@ class MainViewModel(
     private val dataSource: DataSource
 ) : ViewModel() {
 
-    val message: String = "I am ViewModel ${dataSource.dataList.first().message}"
+    val message: String = "I am ViewModel, data = ${dataSource.dataList.size}"
 }
 
 class MainViewModelFactory(

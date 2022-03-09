@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import by.godevelopment.daggerlearn.R
 import by.godevelopment.daggerlearn.appComponent
 import by.godevelopment.daggerlearn.data.DataSource
@@ -19,11 +21,15 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
-    private lateinit var binding: MainFragmentBinding
-
     @Inject
     lateinit var dataSource: DataSource
+
+    private val viewModel: MainViewModel by viewModels {
+        MainViewModelFactory(dataSource)
+    }
+    private lateinit var binding: MainFragmentBinding
+
+
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -35,7 +41,6 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = MainFragmentBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, MainViewModelFactory(dataSource))[MainViewModel::class.java]
         setupUI()
         return binding.root
     }
