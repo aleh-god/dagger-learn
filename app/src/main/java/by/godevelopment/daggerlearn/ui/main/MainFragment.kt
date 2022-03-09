@@ -21,15 +21,13 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    @Inject
-    lateinit var dataSource: DataSource
-
-    private val viewModel: MainViewModel by viewModels {
-        MainViewModelFactory(dataSource)
-    }
     private lateinit var binding: MainFragmentBinding
 
-
+    @Inject
+    lateinit var factory: MainViewModelFactory.Factory
+    private val viewModel: MainViewModel by viewModels {
+        factory.create("null")
+    }
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
