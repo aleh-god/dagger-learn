@@ -4,5 +4,5 @@ import by.godevelopment.daggerlearn.data.DataEntity
 import kotlinx.coroutines.flow.Flow
 
 interface DataRepository {
-    fun getAllData(): Flow<List<DataEntity>>
+    fun getAllData(): Flow<DataEntity>
 }

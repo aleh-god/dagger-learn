@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import by.godevelopment.daggerlearn.R
 import by.godevelopment.daggerlearn.appComponent
 import by.godevelopment.daggerlearn.data.DataSource
 import by.godevelopment.daggerlearn.databinding.MainFragmentBinding
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class MainFragment : Fragment() {
@@ -44,6 +46,10 @@ class MainFragment : Fragment() {
     }
 
     private fun setupUI() {
-        binding.message.text = viewModel.message
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.stateUi.collect {
+                binding.message.text = it.message
+            }
+        }
     }
 }
