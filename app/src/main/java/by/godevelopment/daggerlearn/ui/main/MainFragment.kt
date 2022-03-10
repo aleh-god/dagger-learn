@@ -14,6 +14,7 @@ import by.godevelopment.daggerlearn.R
 import by.godevelopment.daggerlearn.appComponent
 import by.godevelopment.daggerlearn.data.DataSource
 import by.godevelopment.daggerlearn.databinding.MainFragmentBinding
+import by.godevelopment.daggerlearn.di.factory.ViewModelFactory
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -26,10 +27,8 @@ class MainFragment : Fragment() {
     private lateinit var binding: MainFragmentBinding
 
     @Inject
-    lateinit var factory: MainViewModelFactory.Factory
-    private val viewModel: MainViewModel by viewModels {
-        factory.create("null")
-    }
+    lateinit var viewModelFactor: ViewModelFactory
+    lateinit var viewModel: MainViewModel
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -41,7 +40,9 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = MainFragmentBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this, viewModelFactor)[MainViewModel::class.java]
         setupUI()
+
         return binding.root
     }
 
